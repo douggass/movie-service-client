@@ -6,42 +6,41 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.movie.handle.Handle;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Singleton
-public class MovieClientSocket implements ClientSocket {
+public class MovieClientSocket extends DefaultClientSocket {
 
-	private Socket clientSocket;
-	
-	@Inject
-	private Handle handle;
+	public MovieClientSocket(String ip, int port) {
+		super(ip, port);
+	}
 
-	@Override
-	public void start(final String ip, final int port) {
-		try {
-			clientSocket = new Socket(ip, port);
-			clientSocket.setKeepAlive(true);
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			handle.handleInputOutput(in, out);
-		} catch (IOException e) {
-			log.error("Erro ao criar socket", e);
-		} finally {
-			stop();
+	public String findMovies(String message) {
+		try (Socket clientSocket = start();
+			 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+		 	 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));) {
+			return handleInOutFindMovies(in, out, message);			
+		} catch (Exception e) {
+			log.error("Erro realizar buscar filmes", e);
+			throw new RuntimeException(e);
 		}
 	}
 
-	public void stop() {
-		try {
-			clientSocket.close();
-		} catch (IOException e) {
-			log.error("Erro ao parar Socket", e);
+	public String handleInOutFindMovies(final BufferedReader in, final PrintWriter out, final String message)
+			throws IOException {
+		out.println(message);
+		String str;
+		StringBuilder responseString = new StringBuilder();
+		while ((str = in.readLine()) != null) {
+			responseString.append(str).append("\n");
+			if (str.contains("</Output>")) {
+				out.println(".");
+			}
 		}
+		return responseString.toString();
 	}
 
 }
