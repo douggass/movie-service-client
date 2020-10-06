@@ -1,7 +1,6 @@
 package com.movie.server;
 
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.Optional;
 
 import com.google.inject.Inject;
 import com.movie.client.MovieClientSocket;
@@ -9,9 +8,10 @@ import com.movie.dto.Input;
 import com.movie.dto.Output;
 import com.movie.utils.Mapper;
 
-public class AppMovieServer {
+import lombok.extern.slf4j.Slf4j;
 
-	private static final String SAIR = "sair";
+@Slf4j
+public class AppMovieServer {
 
 	@Inject
 	private Mapper mapper;
@@ -19,23 +19,22 @@ public class AppMovieServer {
 	@Inject
 	private MovieClientSocket movieClientSocket;
 
-	public void start() {
-		Scanner scanner = new Scanner(System.in);
-		while (true) {
-			System.out.println("Informe o filme para pesquisar ou sair para finalizar:");
-			String query = scanner.nextLine();
-			if (Objects.nonNull(query) && SAIR.equalsIgnoreCase(query.trim())) {
-				scanner.close();
-				break;
-			}
-			final Input input = Input.builder().query(query).length(query.length()).build();
-			final String xml = mapper.toXml(input);
-			String xmlOutput = movieClientSocket.findMovies(xml);
-			final Output output = mapper.fromXml(xmlOutput);
-			scanner.reset();
-			System.out.println(output.getPayload());
-			System.out.println("--------------------------------- \n");
-		}
+	public void start(final String query) {
+		log.info("Query: {}", query);
+
+		final Input input = Input.builder().query(query).length(query.length()).build();
+		final String xml = mapper.toXml(input);
+		String xmlOutput = movieClientSocket.findMovies(xml);
+		final Output output = mapper.fromXml(xmlOutput);
+
+		log.info("Response: {}", output);
+
+		final String response = Optional.ofNullable(output)
+			.filter(item -> item.length > 0)
+			.map(Output::getPayload)
+			.orElse("Não foram encontrados filmes");
+
+		System.out.println(response);
 	}
 
 }
