@@ -24,3 +24,7 @@ dependencies {
 application {
 	mainClassName = 'com.movie.App'
 }
+
+run {
+    standardInput = System.in
+}
