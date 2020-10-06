@@ -20,6 +20,8 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 	testCompileOnly 'org.projectlombok:lombok:1.18.12'
 	testImplementation 'junit:junit:4.12'
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '3.5.13'
+	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 }
 
 application {

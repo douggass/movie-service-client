@@ -8,7 +8,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.movie.module.ClientModule;
 import com.movie.module.GeneralModule;
-import com.movie.server.AppMovieServer;
+import com.movie.task.MovieTask;
 
 public class App {
 
@@ -23,6 +23,6 @@ public class App {
 				new ClientModule(), 
 				new GeneralModule());
 
-		injector.getInstance(AppMovieServer.class).start(query);
+		injector.getInstance(MovieTask.class).findMovies(query);
 	}
 }

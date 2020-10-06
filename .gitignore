@@ -1,6 +1,9 @@
 #Gradle and build
 .gradle/
-buid/
+build/
+bin/
+.classpath
+.settings
 
 # Compiled class file
 *.class

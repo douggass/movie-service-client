@@ -1,4 +1,4 @@
-package com.movie.server;
+package com.movie.task;
 
 import java.util.Optional;
 
@@ -11,7 +11,7 @@ import com.movie.utils.Mapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AppMovieServer {
+public class MovieTask {
 
 	@Inject
 	private Mapper mapper;
@@ -19,7 +19,7 @@ public class AppMovieServer {
 	@Inject
 	private MovieClientSocket movieClientSocket;
 
-	public void start(final String query) {
+	public void findMovies(final String query) {
 		log.info("Query: {}", query);
 
 		final Input input = Input.builder().query(query).length(query.length()).build();

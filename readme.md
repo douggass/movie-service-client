@@ -21,26 +21,25 @@ Desenho técnico: https://app.lucidchart.com/documents/view/4698e7fc-8786-4646-b
 git clone https://github.com/douggass/movie-service-client.git
 ```
 
-**2. Compilando e rodando a aplicação**
+**2. Compilando a aplicação**
 
 ```bash
-gradlew build run
+gradlew build
 ```
 
-O servidor irá iniciar e as requisições serão feitas para o endereço <http://localhost:8080>.
 
 ## Explorando a aplicação
 
-A aplicação irá solicitar um nome de filme, fazer a pesquisa e listar os filmes com o nome ou próximos. 
+A aplicação irá criar um cliente que solicitará ao servido de filmes, o servidor irá retornar os filmes, então a aplicação irá printar cada filme retornado. 
 
 Exemplo:
 ```
-
+gradlew run --args="Nome do filme"
 
 ```
 
 ## Rodando os testes
 
-O projeto contem uma serie de testes que podem ser rodados utilizando o comando `gradlew test`. 
+O projeto contém uma série de testes que podem ser rodados utilizando o comando `gradlew test`. 
 
 Os resultados podem ser visto acesso o html: build/reports/tests/test/index.html
