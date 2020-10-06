@@ -1,12 +1,14 @@
 # Movie Service
 
-## Cliente que pode fazer requisições para o servidor onde se que lista filmes do imdb8
+### Cliente que pode fazer requisições para o servidor onde se que lista filmes do imdb8
 
-Desenho técnico: https://app.lucidchart.com/documents/view/4698e7fc-8786-4646-b1c8-6d46f4f4cd70
+Desenho técnico: [lucidchart movie-service](https://app.lucidchart.com/documents/view/4698e7fc-8786-4646-b1c8-6d46f4f4cd70)
 
 ## Requisitos
 
 1. Java - 1.8.x
+
+2. A aplicação deve estar rodando [movie-service-server](https://github.com/douggass/movie-service-server)
 
 ## Requisitos para desenvolvimento
 
